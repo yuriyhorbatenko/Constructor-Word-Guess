@@ -5,7 +5,7 @@ var inquirer = require("inquirer");
 var possibleAnswers = ["Persephone", "Morpheus", "Trinity", "Neo", "Smith", "Niobe", "Twin"]
 
 var currentWord;
-var remainingGuesses = 10;
+var remainingGuesses = 5;
 var guessedLetters = [];
 var usedWords = [];
 var firstGame = true;
@@ -76,7 +76,7 @@ function guessPrompt() {
                 validate: function(input) {
                     
                     if (guessedLetters.indexOf(input.trim().toLowerCase()) >= 0) {
-                        console.log("\n You already guessed this letter!");
+                        console.log("\n You already enter this letter!");
                         return false;
                     }
                     
@@ -99,21 +99,23 @@ function guessPrompt() {
             if (currentWord.checkGuess(input.guess)){
                 console.log("CORRECT! You guessed a letter!");
             }
-
+            
             else {
                 
                 remainingGuesses--;
                 console.log("INCORRECT! You have " + remainingGuesses + " guesses left!");
             }
             
-            guessedLetters.push(input.guess.trim().toLowerCase());
+            guessedLetters.push(input.guess);
             guessPrompt();
     
         })
     }
 
     else {
+        console.log("\n---------------------------------------");
         console.log("CONGRATULATIONS! You guessed the word!");
+        console.log("\n---------------------------------------");
         playAgain();
     }
 }
@@ -124,28 +126,29 @@ function playAgain() {
     inquirer.prompt([
 
         {
-            type: "confirm",
-            name: "confirm",
+            type: "list",
             message: "Would you like to play again?",
-            default: true
+            choices: ["Play Again", "Exit"],
+            name: "restart"
         }
 
-    ]).then(function(user) {
+    ]).then(function(input) {
         
-        if (user.confirm){
+        if (input.restart === "Play Again") {
             firstGame = true;
             guessedLetters = [];
             remainingGuesses = 10;
             selectRandomWord();
             guessPrompt();
 
-            if (usedWords.length === wordSelection.length) {
+            if (usedWords.length === possibleAnswers.length) {
                 usedWords = [];
             }
         }
         
         else {
             console.log("Thank you for playing!");
+            return;
         }
     })
 }
