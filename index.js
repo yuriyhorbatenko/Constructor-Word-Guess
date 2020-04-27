@@ -2,7 +2,7 @@
 var Word = require("./js/word.js");
 var inquirer = require("inquirer");
 
-var possibleAnswers = ["Persephone", "Morpheus", "Trinity", "Neo", "Smith", "Niobe", "Twin"]
+var possibleAnswers = ["Persephone", "Morpheus", "Trinity", "Neo", "Smith", "Niobe", "Twins"]
 
 var currentWord;
 var remainingGuesses = 5;
